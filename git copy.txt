@@ -1,0 +1,228 @@
+What is Git?
+    - Git is open source and free source control management(SCM).
+    - With Git, you can manage changes to files over time, 
+        and you can go back and server what those changes were,
+        you can revert back changes to the previous version.
+        you can compare the differences between different versions.
+        you can see who changed what.
+
+
+Setup:
+    - Download and install git from the website.
+    - After installation, configure the git. For that, open terminal and run:
+        git config --global user.name "ur_user_name"    // for setting the username.
+        git config --global user.email ur_email_address // for setting the email address.
+        git config --global init.default branch main    // for setting the default branch name (here, the name is "main")
+        git config -h                                   // for getting help about the "git config"
+        git help config                                 // opens up the manual about "git config", that's hosted on your computer.
+        git init                                        // initialize a git repository in the current directory.
+        git status                                      // returns the status of the repository. Shows the current branch name,
+                                                            shows the commits, shows the untracked files (means the files that git doesnt track the changes),
+                                                            shows the details of files left to commit.
+                                                            If git tracks a file, git will know every change made in that file. Else not.
+        git add file_name                               // add the file with name "file_name" into the tracked files.
+        git rm --cached file_name                       // to remove file_name from the list of tracking files.
+        git add --all                                   // add all untracked files(except those that are mentioned in .gitignore file) in the directory into the tracking files.
+        git add .                                       // same as "git add --all"
+        git add -A                                      // same as "git add --all"
+        git commit -m "message"                         // commit the changes. -m means message, "message" some description about changes in the commit.
+                                                            This will create an entry in the history page of commits.
+        git restore file_name                           // to discard changes in working directory. This command restores the content of the file to its state in the last commit, 
+                                                            effectively discarding any changes made since then.
+        git diff                                        // show what all changed since last commit.
+        git restore --staged file_name                  // moves the file back to the working directory from the staging area.
+        git commit -a -m "message"                      // will do a direct commit of all files skipping the staging area. (directly from the working directory)
+        git rm file_name                                // remove/delete a file.
+        git mv "original_file_name" "new_file_name"     // rename/move the original_file_name to new_file_name.
+        git log                                         // show the details of all the commits.
+        git log --oneline                               // shows an abbreviated view of the commits.
+        git commit -m "updated_msg" --amend             // change/amend the message of the last commit in the Head.
+        git log -p                                      // show the details of what actually changed in the different commits. (ie, specifics of what all changed.)
+                                                            to exit this view press Q (for quit) in the keyboard.
+        git reset hashtag_of_commit                     // For jumping back into a specific previous commit.
+        git rebase -i --root                            // will take you into an editor where you can see all the commits and different options to modify the way things appear.
+                                                            You can change the order of the commits or can even merge and squash the commits.
+                                                            to exit the editor, press colon key, then x and hit enter.
+        git branch branch_name                          // to create a new branch with a name branch_name
+        git branch                                      // return the list of all branch names. currently active branch will have * in front of its name.
+        git switch branch_name                          // change the currently active branch to branch_name.
+        git merge -m "message" branch_name              // merge the branch branch_name with main branch.
+        git branch -d branch_name                       // delete the branch branch_name.
+        git switch -c branch_name                       // create a new branch branch_name and will switch to it. ie, create + switch.
+        git fetch                                       // this will download all the history from the remote tracking branches. to merge that in
+                                                            you could run "git merge" . that will merge it in with what we have on our local machine.
+        git pull                                        // basically fetch + merge as a single command.
+        
+
+        //create a github repository on the command line
+            echo "# readme_text" >> README.md           // to add content to README.md from the command line 
+            git init                            
+            git add README.md
+            git commit -m "message"
+            git branch -M main                          // to set the target branch to main.
+            git remote add origin github_url            // to establish a remote connection with the github_url. origin -> connection name.
+            git push -u origin main                     // push all the contents of the main branch from the local repository to the cloud. 
+            git push --all                              // push all the branches to github
+
+
+    - In file explorer, create a file called ".gitignore". This file allows us to mention the  files, folders, or even just entire extensions you want the git to ignore.
+        For example, you may dont want to add log files, auto generated files etc to you dont want to include as a part of your project.
+        Open the .gitignore file in any text editor. Inside the .gitignore file,
+            #ignore all .txt files      // just a comment
+            *.txt                       // means, ignore any filename with an extension of ".txt"
+            abc.txt                     // means, ignore the abc.txt file from being tracked.
+
+
+How Git Actually Works:
+    - There are four main locations where the code lives in Git:
+        1. The Working Directory:
+            - This is Where we actively edit files locally. This is our playground.
+        2. The Staging Area:
+            - This is a temporary holding spot for changes before committing.
+        3. The Local Repository:
+            - This is where we store committed changes locally.
+        4. The Remote Repository:
+            - A server like GitHub for sharing and backing up code.
+            - This is often a shared server where your team can collaborate, like GitHub or Bitbucket.
+    - Most git commands move files between these locations.
+    - The first step is to git clone an existing repository, so you have a local version of the project to work on,
+        complete with all its history.
+    - The cloned code will be stored in the Local Repository.
+    - When you start working on a file, your code will be taken into the local working directory.
+        This is your local development environment where you make changes to your code.       
+    - when you are ready to commit the changes in the code, you will use "git add" to stage a snapshot
+        of those files in the Staging Area.
+    - Staging Area is a checkpoint where your changes are gathered up and ready to be finalized.
+    - Next step is to use a "git commit" command, which takes a snapshot of the staging area
+        and saves it to your Local Repository.
+        This locks in those staged changes by creating a permanent record that you can refer back to, 
+        like a snapshot in time.
+        Every single commit has a unique identifier.
+    - When you are ready to share your progress with the team or back up your work, you use "git push"
+        to send your commits to the Remote Repository.
+
+    - collaboration in GitHub is a two-way exchange. To integrate your teammates' work,
+        you can use "git pull", which fetches changes from the remote repository and 
+        merges them into your local repository.
+        It combines two commands: "git fetch" which grabs the latest updates, and
+        "git merge" which integrates these updates with your work.
+
+    - There are times when you need to switch contexts, perhaps to fix a bug on another branch.
+        That's where "git checkout" or "git switch" comes in. 
+        It allows you to switch between different branches to work on specific features.
+        
+    - Git branching allows you to diverge from the main codebase to develop a new features
+        without impacting the main code.
+        Some key concepts include creating a new branch with "git branch", 
+            switching between the branches using "git switch",
+            merging branches together with git merge, and 
+            resolving merge conflicts when changes overlap.
+        Branching enables isolated development and collaboration workflows.
+        There is a degree of difference when merging or rebasing changes from others or managing branches.
+
+    - GitHub, SourceTree etc are GUI tools that provide visual interfaces and shortcuts for common commands.
+        They can help new users get started with git more easily.
+
+
+Git file movement:
+    git clone: Remote Repository ---> Local Repository
+    git checkout: Local Repository ---> Local Working Directory
+    git add: Local Working Directory ---> Staging Area
+    git commit: Staging Area ---> Local Repository
+    git push: Local Repository ---> Remote Repository
+    git pull: Remote Repository ---> Local Working Directory
+
+Git MERGE vs REBASE:
+    - Suppose we have created a new feature branch from main.
+    - We have added commit A,B and C on the feature branch.
+    - At the same time, the main branch has added commits D and E.
+    - Keeping the feature branch up to date with main is a crucial part of the Git workflow.
+    - We can do this with either git merge or git rebase.
+    - "git merge" pulls in the latest changes from the main into the feature branch,
+        creating a new "merge commit" in the process.
+        It's like tying the two branches together with a knot.
+        So commit F becomes a merger of commit C and E. (ie, F= C+E)
+    - "git rebase" changes the base of our feature branch from the latest commit on main,
+        and then replays the changes from there.
+        It gives a clean, straightforward commit history, which many people prefer.
+        So the order becomes D->E->A'->B'->C'
+    
+    - Once a feature development is compeleted, the feature branch need to get back into the main branch.
+        The first option to do this is a Git Merge. Git will create a new "merge commit",
+            that ties together the histories of both branches.
+            It's like creating a knot in the rope that shows where the branches joined.
+            But if we do this a lot, we end up with lots of knots, which can make the history a bit messy.
+        Another option is "Git Rebase and Fast-Forward Merge".
+            We can use git rebase to move our feature branch's changes onto the tip of main, and then
+            perform a fast-forward merge.
+            Its like straightening out the rope so its all in one line.
+        Last option is "Squash commits".
+            With squashing, all the feature branch commits are squeezed into a single commit when merged into main.
+            This keeps main's history linear like rebasing, while still creating a single merge commit.
+            But remember, we lose the fine details of individual feature commits in the main branch's commit history.
+            Squashing commits is a popular strategy on platforms like GitHub, because it allows us to tidy up history
+            in the main branch while still preserving the detailed commit history in the feature branch.
+            It's kind of a hybrid approach.
+
+    To sum it up,
+        "git merge" gives us a complete picture of the commit history and branch evolution.
+        "git rebase" tidies up history by moving commits to the main branch tip.
+        squashing commits consolidates commits into one, providing a clean, linear history in the main branch
+            but at the cost of detailed commit history.
+
+    git rebase:
+        pros:
+            - Allows for a cleaner commit history.
+            - Provides a linear commit timeline.
+        cons:
+            - Reduced traceability.
+
+    git merge:
+        Pros:
+            - Preserves commit history.
+        Cons:
+            - Make the history messy.
+
+    squash commits:
+        Pros:
+            - Clear and concise commit history.
+        Cons:
+            - Loss of commit details.
+            - Reduced traceability.
+
+    - THERE IS NO "ONE-SIZE-FITS-ALL" APPROACH. Its all comes down to what you value most.
+
+
+
+GitHub tabs:
+    - Issues:
+        A place where you can enter in a feature requests or maybe someone finds a bug. You could enter the details of that directly into this page.
+        You can create an issue, assign it to someone who can access it, you can use different types of labels to easily identify the type of issue,
+            you can assign it to a project etc.
+        Also other peoples who can access the repository can discuss about the issue, leave comments etc.
+    - Pull requests:
+        If you are working with others, you can have people go in. They can make changes and then you can have them submit a pull request, 
+            so the change has to be reviewed by someone before you push it through to the main branch.
+    - Actions:
+        This is where you can run different tests. You can basically write programs to manage your repository. 
+    - Projects:
+        This is basically a project management view where you can view all of your issues, view all your pull requests, filter the different views.
+        It makes it really easy to manage your project.
+    - Wiki:
+        This is where you can document your code.
+        It's kind of like wikipedia, but for your project. 
+    - Security:
+        This is where you could manage all of your different policies. 
+        You can define happen when a vulnerability is discovered.
+        You could also set up scanning. 
+    - Insights:
+        This is where you can see who's contributing to your project. What does the traffic look like? How many issues  
+            have been closed? How many commits have there been? How many people are contributing? etc etc.
+    - Settings:
+        This is where you can configure various settings related to your project.
+        Over on the left-hand side, if you click on collaborators, here's where you can add additional people to work with you on your project.
+
+
+
+
+
